@@ -187,7 +187,7 @@ var tag = 0
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
               sw("oops","loading")
-              $("#errordisplay").html("<h4>錯誤位置:讀取階段<br>錯誤內容:" + XMLHttpRequest.responseText + "</h4>")
+              $("#errordisplay").html("<h4>錯誤位置:讀取階段</h4>")
                //alert(XMLHttpRequest.responseText)
             }
           });
@@ -227,7 +227,7 @@ var tag = 0
             } ,
             error: function(XMLHttpRequest, textStatus, errorThrown) {
               sw("oops","loading")
-              $("#errordisplay").html("<h4>錯誤位置:寫入階段<br>錯誤內容:" + XMLHttpRequest.responseText + "</h4>")
+              $("#errordisplay").html("<h4>錯誤位置:寫入階段</h4>")
                //alert(XMLHttpRequest.responseText)
             }
           });
