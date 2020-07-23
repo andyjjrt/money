@@ -1,8 +1,8 @@
 var CACHE_NAME = 'my-site-cache-v1';
 var urlsToCache = [
   '/',
-  '/styles/main.css',
-  '/script/main.js'
+  'script.js',
+  'book_icon6765.ico'
 ];
 
 self.addEventListener('install', function(event) {
@@ -14,4 +14,8 @@ self.addEventListener('install', function(event) {
         return cache.addAll(urlsToCache);
       })
   );
+});
+
+self.addEventListener('offline', () => {
+  console.log("offline")
 });
