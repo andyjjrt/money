@@ -4,7 +4,7 @@
 const CACHE_NAME = 'static-cache-v1';
 
 const FILES_TO_CACHE = [
-  '/offline.html',
+  '/tutor.html',
 ];
 
 self.addEventListener('install', (evt) => {
@@ -45,7 +45,7 @@ evt.respondWith(
         .catch(() => {
           return caches.open(CACHE_NAME)
               .then((cache) => {
-                return cache.match('offline.html');
+                return cache.match('tutor.html');
               });
         })
   );
