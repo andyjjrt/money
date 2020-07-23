@@ -4,7 +4,12 @@
 const CACHE_NAME = 'static-cache-v1';
 
 const FILES_TO_CACHE = [
-  'https://andyjjrt.github.io/money/tutor.html',
+  'https://andyjjrt.github.io/money/offline.html',
+  "https://raw.githubusercontent.com/andyjjrt/money/master/t1.png",
+  "https://raw.githubusercontent.com/andyjjrt/money/master/t2.png",
+  "https://raw.githubusercontent.com/andyjjrt/money/master/t3.png",
+  "https://raw.githubusercontent.com/andyjjrt/money/master/t4.png",
+  "https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
 ];
 
 self.addEventListener('install', (evt) => {
@@ -45,7 +50,7 @@ evt.respondWith(
         .catch(() => {
           return caches.open(CACHE_NAME)
               .then((cache) => {
-                return cache.match('tutor.html');
+                return cache.match('offline.html');
               });
         })
   );
