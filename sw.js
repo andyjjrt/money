@@ -1,7 +1,7 @@
 var CACHE_NAME = 'my-site-cache-v1';
 var urlsToCache = [
-  '/',
-  'script.js',
+  'https://andyjjrt.github.io/money/index.html',
+  'https://andyjjrt.github.io/money/script.js',
   'book_icon6765.ico'
 ];
 
