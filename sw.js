@@ -1,16 +1,12 @@
 const filesToCache = [
   "https://andyjjrt.github.io/money",
-  "https://andyjjrt.github.io/money/script.js"
+  "https://andyjjrt.github.io/money/script.js".
+  "https://raw.githubusercontent.com/andyjjrt/money/master/book_icon6765.ico".
+  "https://andyjjrt.github.io/money/manifest.json"
 ];
 
 const cacheName = "static-online v1.5.1.16";
 const newName = "static-offline";
-
-var dlog = [];
-function logdate(msg) {
-  dlog.push(msg);
-  console.warn(dlog); // if you need to print the output
-}
 
 // activate
 self.addEventListener("activate", event => {
