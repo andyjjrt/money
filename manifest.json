@@ -3,7 +3,7 @@
   "short_name": "記帳",
   "start_url": "/money/index.html",
   "display": "standalone",
-  "background_color": "#2196f3",
+  "background_color": "#e6faf8",
   "description": "記帳",
   "icons": [
     {
@@ -18,6 +18,6 @@
     }
   ],
   "orientation": "portrait",
-  "theme_color": "#EEE8AA",
+  "theme_color": "#ffffff",
   "lang": "zh-Hant-TW"
 }
