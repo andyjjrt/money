@@ -10,7 +10,7 @@ var tag = 0
       var sid=[]
       
       if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.register('/sw.js')
+          navigator.serviceWorker.register('/money/sw.js')
           .then(reg => console.log('SW registered!', reg))
           .catch(err => console.log('Error!', err));
       }
