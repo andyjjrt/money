@@ -7,12 +7,12 @@
   "description": "記帳",
   "icons": [
     {
-    "src": "https://cdn.glitch.com/514798f5-1354-4db7-abc9-6d6ebef3f69c%2Fbrand.png?v=1580732619329",
+    "src": "https://raw.githubusercontent.com/andyjjrt/money/master/book_icon6765.ico",
     "sizes": "324x324",
     "type": "image/png"
     },
     {
-    "src": "https://cdn.glitch.com/514798f5-1354-4db7-abc9-6d6ebef3f69c%2Fbrand512.png?v=1580804279734",
+    "src": "https://raw.githubusercontent.com/andyjjrt/money/master/book_icon6765.ico",
     "sizes": "512x512",
     "type": "image/png"
     }
