@@ -1,0 +1,23 @@
+{
+  "name": "記帳",
+  "short_name": "記帳",
+  "start_url": "/money/index.html",
+  "display": "standalone",
+  "background_color": "#2196f3",
+  "description": "記帳",
+  "icons": [
+    {
+    "src": "https://cdn.glitch.com/514798f5-1354-4db7-abc9-6d6ebef3f69c%2Fbrand.png?v=1580732619329",
+    "sizes": "324x324",
+    "type": "image/png"
+    },
+    {
+    "src": "https://cdn.glitch.com/514798f5-1354-4db7-abc9-6d6ebef3f69c%2Fbrand512.png?v=1580804279734",
+    "sizes": "512x512",
+    "type": "image/png"
+    }
+  ],
+  "orientation": "portrait",
+  "theme_color": "#EEE8AA",
+  "lang": "zh-Hant-TW"
+}
