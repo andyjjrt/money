@@ -10,7 +10,7 @@ var tag = 0
       var sid=[]
       
       if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.register('/money/sw.js')
+          navigator.serviceWorker.register('/sw.js')
           .then(reg => console.log('SW registered!', reg))
           .catch(err => console.log('Error!', err));
       }
@@ -187,7 +187,7 @@ var tag = 0
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
               sw("oops","loading")
-              $("#errordisplay").html("<h4>錯誤位置:讀取階段</h4>")
+              $("#errordisplay").html("<h4>錯誤位置:讀取階段<br>錯誤內容:" + XMLHttpRequest.responseText + "</h4>")
                //alert(XMLHttpRequest.responseText)
             }
           });
@@ -200,7 +200,7 @@ var tag = 0
         }else{
             sw("loading","submitp")
           var parameter={
-            time:$("#time").val(),
+            time:$("#time").val() + "T08:00:00.000Z",
             type:$("#type").val(),
             item:$("#item").val(),
             count:$("#count").val(),
@@ -227,7 +227,7 @@ var tag = 0
             } ,
             error: function(XMLHttpRequest, textStatus, errorThrown) {
               sw("oops","loading")
-              $("#errordisplay").html("<h4>錯誤位置:寫入階段</h4>")
+              $("#errordisplay").html("<h4>錯誤位置:寫入階段<br>錯誤內容:" + XMLHttpRequest.responseText + "</h4>")
                //alert(XMLHttpRequest.responseText)
             }
           });
@@ -282,5 +282,27 @@ function crurl(){
     $("#urlgenerate").val(githubURL.href)
     $('#myModal').modal('toggle')
   }
+}
+
+function logger(){
+  var parameter={
+      uid:"asdf"
+    }
+  $.ajax({ 
+    type: "get", 
+    url: "https://script.google.com/macros/s/AKfycbz6vxn86PSljuND1UmufE2uABxybTgjxx7iFimf4sNei4mheKL7/exec", 
+    data: parameter, 
+    dataType: "JSON", 
+    success: function (response) {
+      console.log(response);
+      $("#listarea").html("")
+      init()
+    } ,
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      sw("oops","loading")
+      $("#errordisplay").html("<h4>錯誤位置:寫入階段<br>錯誤內容:" + XMLHttpRequest.responseText + "</h4>")
+        //alert(XMLHttpRequest.responseText)
+    }
+  });
 }
       
