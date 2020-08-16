@@ -1,7 +1,6 @@
 {
   "name": "記帳",
   "short_name": "記帳",
-  "start_url": "/money/index.html",
   "display": "standalone",
   "background_color": "#e6faf8",
   "description": "記帳",
