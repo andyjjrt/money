@@ -59,9 +59,14 @@
     <div class="tab-pane fade" id="table" role="tabpanel">
         <br>
         <div class="clearfix">
-          <button class="btn btn-secondary float-right" onclick="sw('menu','table')">
-            <svg width="1.5em" height="1.5em" viewbox="0 0 16 16" class="bi bi-house-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 3.293l6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/><path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/></svg>
-          </button>
+          <div class="btn-group float-right" role="group" aria-label="Basic example">
+            <button class="btn btn-outline-dark" onclick="editact()" id="editbtnAll">
+              <svg width="1.5em" height="1.5em" viewbox="0 0 16 16" class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.293 1.293a1 1 0 0 1 1.414 0l2 2a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z"/><path fill-rule="evenodd" d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z"/></svg>
+            </button>
+            <button class="btn btn-outline-secondary" onclick="sw('menu','table');editstatus = 1;editact()">
+              <svg width="1.5em" height="1.5em" viewbox="0 0 16 16" class="bi bi-house-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 3.293l6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/><path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/></svg>
+            </button>
+          </div>
           <div class="dropdown">
             <button class="btn btn-outline-dark dropdown-toggle float-left" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <!--
@@ -93,15 +98,15 @@
       <br>
         <table class="table">
           <thead class="thead-dark">
-            <tr>
-              <th scope="col">時間</th>
-              <th scope="col">
+            <tr id="listtable">
+              <th style="white-space: nowrap;">時間</th>
+              <th>
                 <svg width="1.8em" height="1.8em" viewbox="0 0 16 16" class="bi bi-chat-left-text-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793V2zm3.5 1a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5z"/>
                 </svg>
               </th>
-              <th scope="col">項目</th>
-              <th scope="col">金額</th>
+              <th>項目</th>
+              <th>金額</th>
             </tr>
           </thead>
           <tbody id="detailarea">
@@ -151,16 +156,13 @@
       <div class="tab-pane fade" id="submitp" role="tabpanel">
         <br>
         <div class="card">
-          <div class="clearfix card-header" >
-            <h5 id="subheader"></h5>
+          <div class="clearfix card-header" id="subcardh">
+            <h3 id="subheader"></h3>
             
           </div>
           
           <div class="card-body">
             <form id="fr">
-              <div class="form-group">
-                <input type="text" class="form-control" id="type" disabled>
-              </div>
               <div class="form-group">
                 <label>日期</label>
                 <input type="date" class="form-control" id="time">
@@ -183,7 +185,7 @@
                 <button type="button" class="btn btn-outline-dark" onclick="selecttag('dark',this.id,'其他')" id="sle6">其他</button>&nbsp;
               </div>
               <br>
-              <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="writed($('#type').val())">提交</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="writed(inputType)">提交</button>
             </form>
           </div>
         </div>
@@ -244,6 +246,54 @@
           前往檢查資料
         </button>
       </div>
+      
+      <div class="tab-pane fade" id="editp" role="tabpanel">
+        <br>
+        <div class="card">
+          <div class="card-header" >
+            <h5 id="editheader">編輯</h5>
+          </div>
+          <div class="card-body">
+            <form>
+              <select class="form-control" id="etype">
+                <option value="收入">收入</option>
+                <option value="支出">支出</option>
+              </select>
+              <br>
+              <div class="form-group">
+                <label>日期</label>
+                <input type="date" class="form-control" id="etime">
+              </div>
+              <div class="form-group">
+                <label>品項</label>
+                <input type="text" class="form-control" id="eitem">
+              </div>
+              <div class="form-group">
+                <label>金額</label>
+                <input type="number" class="form-control" id="ecount">
+              </div>
+              <div id="etagarea" style="overflow: auto;white-space: nowrap; display:none" >
+                <button type="button" class="btn btn-outline-primary" onclick="selectetag('primary',this.id,'早餐')" id="esle0">早餐</button>&nbsp;
+                <button type="button" class="btn btn-outline-secondary" onclick="selectetag('secondary',this.id,'午餐')" id="esle1">午餐</button>&nbsp;
+                <button type="button" class="btn btn-outline-success" onclick="selectetag('success',this.id,'晚餐')" id="esle2">晚餐</button>&nbsp;
+                <button type="button" class="btn btn-outline-danger" onclick="selectetag('danger',this.id,'交通')" id="esle3">交通</button>&nbsp;
+                <button type="button" class="btn btn-outline-warning" onclick="selectetag('warning',this.id,'食物')" id="esle4">食物</button>&nbsp;
+                <button type="button" class="btn btn-outline-info" onclick="selectetag('info',this.id,'文具')" id="esle5">文具</button>&nbsp;
+                <button type="button" class="btn btn-outline-dark" onclick="selectetag('dark',this.id,'其他')" id="esle6">其他</button>&nbsp;
+              </div>
+              <br>
+              <div class="row">
+                <div class="col">
+                  <button type="button" class="btn btn-outline-primary btn-block" onclick="edited($('#etype').val(),'renew')">更新</button>
+                </div>
+                <div class="col">
+                  <button type="button" class="btn btn-outline-danger btn-block" onclick="edited($('#etype').val(),'delete')">刪除</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
             
     </div>
 </div>
@@ -258,4 +308,3 @@
     <script src="script.js"></script>
   </body>
 </html>
-
