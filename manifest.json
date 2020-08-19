@@ -2,21 +2,16 @@
   "name": "記帳",
   "short_name": "記帳",
   "display": "standalone",
-  "background_color": "#e6faf8",
-  "description": "記帳",
+  "background_color": "#EEE8AA",
+  "description": "",
   "icons": [
     {
     "src": "https://raw.githubusercontent.com/andyjjrt/money/master/book_icon6765.ico",
     "sizes": "324x324",
     "type": "image/png"
-    },
-    {
-    "src": "https://raw.githubusercontent.com/andyjjrt/money/master/book_icon6765.ico",
-    "sizes": "512x512",
-    "type": "image/png"
     }
   ],
   "orientation": "portrait",
-  "theme_color": "#ffffff",
+  "theme_color": "#EEE8AA",
   "lang": "zh-Hant-TW"
 }
