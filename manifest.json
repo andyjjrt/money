@@ -2,7 +2,7 @@
   "name": "記帳",
   "short_name": "記帳",
   "display": "standalone",
-  "background_color": "#EEE8AA",
+  "background_color": "#fffcf0",
   "description": "",
   "icons": [
     {
@@ -12,6 +12,6 @@
     }
   ],
   "orientation": "portrait",
-  "theme_color": "#EEE8AA",
+  "theme_color": "#ffffff",
   "lang": "zh-Hant-TW"
 }
