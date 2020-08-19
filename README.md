@@ -61,12 +61,15 @@
 
 接著按下【發佈】 > 【部署為網路應用程式】，專案名稱自行設定。
 接著照下圖設定公開度為[Anyone, even anonymous]，接著按【Deploy】，並核對權限。
+
 ![enter image description here](https://github.com/andyjjrt/money/blob/master/a2.png?raw=true)
 
 按下進階設定，並繼續前往此專案，並同意操作。
+
 ![enter image description here](https://github.com/andyjjrt/money/blob/master/a3.png?raw=true)
 
 最後，此段網址即為【讀取appscript網址】所需資料
+
 ![enter image description here](https://github.com/andyjjrt/money/blob/master/a4.png?raw=true)
 
 【寫入appscript網址】與【更新appscript網址】方法異同，請參閱此處取得檔案。
