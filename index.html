@@ -8,16 +8,24 @@
     <link rel="bookmark" href="https://raw.githubusercontent.com/andyjjrt/money/master/book_icon6765.ico">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#e6faf8"/>
-    <link rel='apple-touch-icon' sizes='192x192' href='https://raw.githubusercontent.com/andyjjrt/money/master/book_icon6765.ico'/>
-    <meta name='apple-mobile-web-app-capable' content='yes'>
+    <link rel="apple-touch-icon" sizes="192x192" href="https://raw.githubusercontent.com/andyjjrt/money/master/book_icon6765.ico"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <title>記帳</title>
   </head>
   <body  style="font-family:Microsoft JhengHei;">
+
     
     <nav class="navbar navbar-dark bg-dark">
-      <span class="navbar-brand mb-0 h1">記帳</span>
+      <form class="form-inline">
+        <div class="input-group">
+          <div class="input-group-prepend ">
+            <span class="navbar-brand mb-0 h1">記帳</span>
+          </div>
+          <input type="month" class="form-control" id="monthpick" style="display:none" onchange="chmonth()">
+        </div>
+      </form>
       <form class="form-inline" id="remain">
         
       </form>
@@ -48,12 +56,12 @@
       <div class="tab-pane fade show active" id="loading" role="tabpanel">
         <br>
         <div class="text-center">
-          <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
-          <span class="sr-only">Loading...</span>
-        </div>
-        <h3>
-          Loading......
-        </h3>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: 0%;" id="ps"></div>
+          </div>
+          <h5 id="psword">
+            
+          </h5>
       </div>
     </div>
     <div class="tab-pane fade" id="table" role="tabpanel">
@@ -63,46 +71,56 @@
             <button class="btn btn-outline-dark" onclick="editact()" id="editbtnAll">
               <svg width="1.5em" height="1.5em" viewbox="0 0 16 16" class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.293 1.293a1 1 0 0 1 1.414 0l2 2a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z"/><path fill-rule="evenodd" d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z"/></svg>
             </button>
+            <button class="btn btn-outline-dark" onclick="performmethod(this.id)" id="chart" me="1">
+              <svg width="1.5em" height="1.5em" viewbox="0 0 16 16" class="bi bi-pie-chart" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                <path fill-rule="evenodd" d="M7.5 7.793V1h1v6.5H15v1H8.207l-4.853 4.854-.708-.708L7.5 7.793z"/>
+              </svg>
+            </button>
             <button class="btn btn-outline-secondary" onclick="sw('menu','table');editstatus = 1;editact()">
               <svg width="1.5em" height="1.5em" viewbox="0 0 16 16" class="bi bi-house-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 3.293l6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/><path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/></svg>
             </button>
           </div>
-          <div class="dropdown">
-            <button class="btn btn-outline-dark dropdown-toggle float-left" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <!--
-              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-funnel-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
-              </svg>
-              -->
-              <svg width="1em" height="1em" viewbox="0 0 16 16" class="bi bi-funnel" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z"/>
-              </svg>&nbsp;
-              按日期新到舊
+
+          <div class="btn-group" role="group" aria-label="Button group with nested dropdown" id="leftbtngroup">
+            <button type="button" class="btn btn-outline-dark" onclick="linemethod(this.id)" id="linebtn" me="2">
+              <svg width="1.5em" height="1.5em" viewbox="0 0 16 16" class="bi bi-sort-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 2a.5.5 0 0 1 .5.5v10a.5.5 0 0 1-1 0v-10A.5.5 0 0 1 3 2z"/><path fill-rule="evenodd" d="M5.354 10.146a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L3 11.793l1.646-1.647a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 9a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5z"/></svg>
             </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-              <h4 class="dropdown-header">排序方式</h4>
-              <button class="dropdown-item" type="button" onclick="init2('按日期新到舊')">按日期新到舊</button>
-              <button class="dropdown-item" type="button" onclick="init2('按日期舊到新')">按日期舊到新</button>
-              <button class="dropdown-item" type="button" onclick="init2('支出')">支出</button>
-              <button class="dropdown-item" type="button" onclick="init2('收入')">收入</button>
-              <button class="dropdown-item" type="button" onclick="init2('早餐')"><span class="badge badge-primary">&nbsp;</span>&nbsp;早餐</button>
-              <button class="dropdown-item" type="button" onclick="init2('午餐')"><span class="badge badge-secondary">&nbsp;</span>&nbsp;午餐</button>
-              <button class="dropdown-item" type="button" onclick="init2('晚餐')"><span class="badge badge-success">&nbsp;</span>&nbsp;晚餐</button>
-              <button class="dropdown-item" type="button" onclick="init2('交通')"><span class="badge badge-danger">&nbsp;</span>&nbsp;交通</button>
-              <button class="dropdown-item" type="button" onclick="init2('食物')"><span class="badge badge-warning">&nbsp;</span>&nbsp;食物</button>
-              <button class="dropdown-item" type="button" onclick="init2('文具')"><span class="badge badge-info">&nbsp;</span>&nbsp;文具</button>
-              <button class="dropdown-item" type="button" onclick="init2('其他')"><span class="badge badge-dark">&nbsp;</span>&nbsp;其他</button>
+            <div class="btn-group" role="group">
+              <button class="btn btn-outline-dark dropdown-toggle float-left" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <svg width="1em" height="1em" viewbox="0 0 16 16" class="bi bi-funnel" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z"/>
+                </svg>&nbsp;
+                全部
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                <h4 class="dropdown-header">排序方式</h4>
+                <button class="dropdown-item" type="button" onclick="init2('全部')">全部</button>
+                <button class="dropdown-item" type="button" onclick="init2('支出')">支出</button>
+                <button class="dropdown-item" type="button" onclick="init2('收入')">收入</button>
+                <button class="dropdown-item" type="button" onclick="init2('早餐')"><span class="badge badge-primary">&nbsp;</span>&nbsp;早餐</button>
+                <button class="dropdown-item" type="button" onclick="init2('午餐')"><span class="badge badge-secondary">&nbsp;</span>&nbsp;午餐</button>
+                <button class="dropdown-item" type="button" onclick="init2('晚餐')"><span class="badge badge-success">&nbsp;</span>&nbsp;晚餐</button>
+                <button class="dropdown-item" type="button" onclick="init2('交通')"><span class="badge badge-danger">&nbsp;</span>&nbsp;交通</button>
+                <button class="dropdown-item" type="button" onclick="init2('食物')"><span class="badge badge-warning">&nbsp;</span>&nbsp;食物</button>
+                <button class="dropdown-item" type="button" onclick="init2('文具')"><span class="badge badge-info">&nbsp;</span>&nbsp;文具</button>
+                <button class="dropdown-item" type="button" onclick="init2('其他')"><span class="badge badge-dark">&nbsp;</span>&nbsp;其他</button>
+              </div>
             </div>
           </div>
+          
         </div>
       <br>
+      <div id="areaa">
         <table class="table">
           <thead class="thead-dark">
             <tr id="listtable">
-              <th style="white-space: nowrap;">時間</th>
+              <th style="white-space: nowrap;">日期</th>
               <th>
-                <svg width="1.8em" height="1.8em" viewbox="0 0 16 16" class="bi bi-chat-left-text-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793V2zm3.5 1a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5z"/>
+                <svg width="1.8em" height="1.8em" viewbox="0 0 16 16" class="bi bi-tags" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M3 2v4.586l7 7L14.586 9l-7-7H3zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586V2z"/>
+                  <path fill-rule="evenodd" d="M5.5 5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1zm0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                  <path d="M1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1v5.086z"/>
                 </svg>
               </th>
               <th>項目</th>
@@ -112,15 +130,39 @@
           <tbody id="detailarea">
           </tbody>
         </table>
+      </div>
+        
     </div>
     <div class="tab-pane fade" id="menu" role="tabpanel">
         <br>
         <div class="row">
           <div class="col">
-            <button type="button" class="btn btn-outline-warning btn-block" onclick="sub('支出','0')">支出</button>
+            <button type="button" class="btn btn-warning btn-block" onclick="sub('支出','0')" id="outbtn">
+              <br>
+              <svg width="3em" height="3em" viewbox="0 0 16 16" class="bi bi-minecart" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M4 15a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 1a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm8-1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 1a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM.115 3.18A.5.5 0 0 1 .5 3h15a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 14 12H2a.5.5 0 0 1-.491-.408l-1.5-8a.5.5 0 0 1 .106-.411zm.987.82l1.313 7h11.17l1.313-7H1.102z"/>
+              </svg>
+              <br>
+              <br>
+              <h4>
+                支出
+              </h4>
+            </button>
           </div>
           <div class="col">
-            <button type="button" class="btn btn-outline-success btn-block" onclick="sub('收入','0')">收入</button>
+            <button type="button" class="btn btn-success btn-block" onclick="sub('收入','0')" id="inbtn">
+              <br>
+              <svg width="3em" height="3em" viewbox="0 0 16 16" class="bi bi-wallet" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M2 4v8.5A1.5 1.5 0 0 0 3.5 14h10a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 1 1 0v8a1.5 1.5 0 0 1-1.5 1.5h-10A2.5 2.5 0 0 1 1 12.5V4h1z"/>
+                <path fill-rule="evenodd" d="M1 4a2 2 0 0 1 2-2h11.5a.5.5 0 0 1 0 1H3a1 1 0 0 0 0 2h11.5v1H3a2 2 0 0 1-2-2z"/>
+                <path fill-rule="evenodd" d="M13 5V3h1v2h-1z"/>
+              </svg>
+              <br>
+              <br>
+              <h4>
+                收入
+              </h4>
+            </button>
           </div>
         </div>
         
@@ -131,8 +173,10 @@
             <tr>
               <th scope="col">時間</th>
               <th scope="col">
-                <svg width="1.8em" height="1.8em" viewbox="0 0 16 16" class="bi bi-chat-left-text-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793V2zm3.5 1a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 2.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5z"/>
+                <svg width="1.8em" height="1.8em" viewbox="0 0 16 16" class="bi bi-tags" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M3 2v4.586l7 7L14.586 9l-7-7H3zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586V2z"/>
+                  <path fill-rule="evenodd" d="M5.5 5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1zm0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                  <path d="M1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1v5.086z"/>
                 </svg>
               </th>
               <th scope="col">項目</th>
@@ -143,7 +187,7 @@
           </tbody>
         </table>
         <br>
-        <button class="btn btn-primary btn-block" onclick="init2('按日期新到舊')">
+        <button class="btn btn-primary btn-block" onclick="$('#chart').attr('me','2');performmethod('chart');init2('全部')">
           查看更多
         </button>
         <br>
@@ -193,17 +237,46 @@
       <div class="tab-pane fade" id="initmenu" role="tabpanel">
         <br>
         <h2>
-          請填寫第一筆資料
+          請填寫本月第一筆資料
         </h2>
         <br>
         <div class="row">
           <div class="col">
-            <button type="button" class="btn btn-outline-warning btn-block" onclick="sub('支出','1')">支出</button>
+            <button type="button" class="btn btn-warning btn-block" onclick="sub('支出','1')">
+              <br>
+              <svg width="3em" height="3em" viewbox="0 0 16 16" class="bi bi-minecart" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M4 15a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 1a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm8-1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 1a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM.115 3.18A.5.5 0 0 1 .5 3h15a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 14 12H2a.5.5 0 0 1-.491-.408l-1.5-8a.5.5 0 0 1 .106-.411zm.987.82l1.313 7h11.17l1.313-7H1.102z"/>
+              </svg>
+              <br>
+              <br>
+              <h4>
+                支出
+              </h4>
+            </button>
           </div>
           <div class="col">
-            <button type="button" class="btn btn-outline-success btn-block" onclick="sub('收入','1')">收入</button>
+            <button type="button" class="btn btn-success btn-block" onclick="sub('收入','1')">
+              <br>
+              <svg width="3em" height="3em" viewbox="0 0 16 16" class="bi bi-wallet" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M2 4v8.5A1.5 1.5 0 0 0 3.5 14h10a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 1 1 0v8a1.5 1.5 0 0 1-1.5 1.5h-10A2.5 2.5 0 0 1 1 12.5V4h1z"/>
+                <path fill-rule="evenodd" d="M1 4a2 2 0 0 1 2-2h11.5a.5.5 0 0 1 0 1H3a1 1 0 0 0 0 2h11.5v1H3a2 2 0 0 1-2-2z"/>
+                <path fill-rule="evenodd" d="M13 5V3h1v2h-1z"/>
+              </svg>
+              <br>
+              <br>
+              <h4>
+                收入
+              </h4>
+            </button>
           </div>
         </div>
+      </div>
+      <div class="tab-pane fade" id="timeout" role="tabpanel">
+        <br>
+        <h2>
+          嘿，這個月過了就過了，你什麼都沒留下
+        </h2>
+        <br>
       </div>
       <div class="tab-pane fade" id="datamiss" role="tabpanel">
         <br>
@@ -211,7 +284,7 @@
           <h2>
             請輸入以下必要資料
           </h2>
-          <a role="button" class="btn btn-primary float-right" href="tutor.html">前往教學</a>
+          <a role="button" class="btn btn-primary float-right" href="https://github.com/andyjjrt/money/blob/master/README.md">前往教學</a>
         </div>
         
         <div class="form-group">
@@ -221,6 +294,10 @@
         <div class="form-group">
           <label>寫入appscript網址</label>
           <input type="text" class="form-control" id="wrsrc">
+        </div>
+        <div class="form-group">
+          <label>更新appscript網址</label>
+          <input type="text" class="form-control" id="quesrc">
         </div>
         <div class="form-group">
           <label>試算表id</label>
@@ -305,6 +382,8 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
