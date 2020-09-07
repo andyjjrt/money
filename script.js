@@ -85,8 +85,8 @@ $( document ).ready(function() {
   }else{
     var date = new Date().getMonth();
     var year = new Date().getFullYear();
-    mo = year + "-" + pad((date+1),2)
-    emo = year + "-" + pad((date+2),2)
+    mo = year + "-" + pad(String(date+1),2)
+    emo = year + "-" + pad(String(date+2),2)
     var decm = new Date()
     $("#monthpick").val(decm.getFullYear() + "-" + pad((decm.getMonth() + 1),2))
     query()
