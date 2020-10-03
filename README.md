@@ -1,4 +1,4 @@
-# 記帳
+# 記帳：[andyjjrt.github.io/money](http://andyjjrt.github.io/money "andyjjrt.github.io/money")
 
 ## 安裝教學
 
