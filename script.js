@@ -18,6 +18,7 @@ var mo
 var emo
 var datas
 var otherLo
+var newp = false
 
 function linemethod(a){
   var k = $("#" + a).attr("me")
@@ -70,6 +71,7 @@ $( document ).ready(function() {
   }
   $("#datasrc").val(sid[0])
   if(sid.length == 0){
+    newp = true
     sw("datamiss","loading")
   }else{
     var date = new Date().getMonth();
@@ -123,7 +125,7 @@ function init3(a){
   }else{
     for(var i = 0;i<arr.length;i++){
       if(a == arr2[i]){
-        str = '<span class="badge badge-light"><span class="badge" style="background-color:' + arr[i] + ';">&nbsp;</span>&nbsp' + a + '</span>'
+        str = '<span class="badge badge-light"><div class="badge" style="background-color:' + arr[i] + ';">&nbsp;</div>&nbsp' + a + '</span>'
       }
     }
   }
@@ -323,7 +325,7 @@ function init2(a){
               if(arr2[i] == "其他"){
                 otherLo = i
               }
-              $("#tagarea").append('<button type="button" class="btn btn-lg" style="border-color:' + arr[i] + ';" onclick="selecttag(\'' + arr[i] + '\',this.id,\'' + arr2[i] + '\')" id="sle' + i + '"><span class="badge badge-light">' + arr2[i] + '</span></button>&nbsp;')
+              $("#tagarea").append('<button type="button" class="btn btn-lg" style="border-color:' + arr[i] + ';" onclick="selecttag(\'' + arr[i] + '\',this.id,\'' + arr2[i] + '\')" id="sle' + i + '"><div class="badge badge-light">' + arr2[i] + '</div></button>&nbsp;')
               $("#etagarea").append('<button type="button" class="btn btn-lg" style="border-color:' + arr[i] + ';" onclick="selectetag(\'' + arr[i] + '\',this.id,\'' + arr2[i] + '\')" id="esle' + i + '"><span class="badge badge-light">' + arr2[i] + '</span></button>&nbsp;')
               $("#dropdownMenu").append('<button class="dropdown-item" type="button" onclick="init2(\'' + arr2[i] + '\')"><span class="badge" style="background-color:' + arr[i] + ';">&nbsp;</span>&nbsp;' + arr2[i] + '</button>')
             }
@@ -711,7 +713,7 @@ function createChart(){
       }
 
       function del(a){
-        /*
+        
         var t = confirm("確定刪除?")
         if(t == true){
           $("#" + a).remove()
@@ -720,13 +722,13 @@ function createChart(){
           arr2.splice(pos, 1);
           arr.splice(pos, 1);
         }
-        */
-        alert("功能維護中")
+        
+        //alert("功能維護中")
       }
 
       function updateTag(){
         sw("loading","datamiss")
-        if(arr.length != 0){
+        if(arr.length != 0 && newp == false){
           var data1txt=arr2[0],data2txt=arr[0],data3txt=arr3[0];
           for(var i=1;i<arr2.length;i++){
             data1txt += "," + arr2[i]
@@ -748,7 +750,7 @@ function createChart(){
             dataType: "JSON", 
             success: function (response) {
               console.log(response); 
-              sw("datamiss","loading") 
+              $("#target").submit();
             } ,
             error: function(XMLHttpRequest, textStatus, errorThrown) {
               //sw("oops","loading")
@@ -756,5 +758,8 @@ function createChart(){
               //alert(XMLHttpRequest.responseText)
             }
           });
+        }
+        if(newp == true){
+          $("#target").submit();
         }
       }

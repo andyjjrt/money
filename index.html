@@ -22,7 +22,7 @@
       <form class="form-inline">
         <div class="input-group">
           <div class="input-group-prepend ">
-            <span class="navbar-brand mb-0 h1">記帳</span>
+            <a class="navbar-brand" href="#" onclick="alert('Info\nV3.0.0\nUpdated:2020/10/03\nAuthor:andyjjrt')">記帳</a>
           </div>
           <input type="month" class="form-control" id="monthpick" style="display:none" onchange="chmonth()">
         </div>
@@ -273,12 +273,18 @@
           </div>
           
         </div>
-        <form>
+        <br>
+        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+          <strong>注意喔!</strong> 要按下面的按鈕才會儲存所有動作(包括編輯標籤)
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form id="target">
           <div class="form-group">
             <label>試算表id</label>
             <input type="text" class="form-control" id="datasrc" name="s0">
           </div>
-          <button type="submit" class="btn btn-success">試算表設定完成</button>
         </form>
         
         <br>
@@ -286,7 +292,9 @@
           <div class="card-header ">
             <h5 id="tagtitle">
               &nbsp;標籤
-              <button disabled id="tagToggler1" class="btn btn-primary float-right" type="button" onclick="tagpage(this.id)">
+              
+              
+              <button id="tagToggler1" class="btn btn-primary float-right" type="button" onclick="tagpage(this.id)">
                 <svg width="1.6em" height="1.6em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>
                   <path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>
@@ -307,6 +315,11 @@
               </div>
               <div class="tab-pane fade" id="tag-edit" role="tabpanel" aria-labelledby="tag-edit-tab">
                 <form class="px-2 py-2"> 
+                  <div class="alert alert-warning" role="alert">
+                    <strong>注意!</strong>為避免排版問題，請不要輸入超過5個中文字或8個英文字母
+                    <br>
+                    (也不是說不能啦，很醜而已~)
+                  </div>
                   <div class="form-group">
                     <label>標籤名稱</label>
                     <div class="col-sm-10">
@@ -320,15 +333,18 @@
                     </div>
                   </div>
                   <br>
-                  <button class="btn btn-block btn-primary" onclick="createtag($('#tagname').val(),$('#tagcolor').val())">新增</button>
                 </form>
+                <button class="btn btn-block btn-primary" onclick="createtag($('#tagname').val(),$('#tagcolor').val())">新增</button>
               </div>
             </div>
-          </div>
-          <div class="card-footer">
-            <button class="btn btn-block btn-success" onclick="updateTag()" disabled>更新到試算表</button>
-          </div>
+          </div>          
         </div>
+        <br>
+        <button type="button" class="btn btn-success btn-block" onclick="updateTag()">試算表設定完成</button>
+        <br>
+        <br>
+        <br>
+        <br>
       </div>
       <div class="tab-pane fade" id="oops" role="tabpanel">
         <br>
