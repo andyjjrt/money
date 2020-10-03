@@ -8,7 +8,7 @@
 
  前往google試算表建立新試算表。並將【共用】開啟至【知道連結的使用者均能查看】
  
- 接著新增兩張張試算表，如圖所示。
+ 接著新增兩張張試算表且命名排序如圖所示。
 
 ![enter image description here](https://raw.githubusercontent.com/andyjjrt/money/master/tutor1.JPG)
 
