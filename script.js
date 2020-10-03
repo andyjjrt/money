@@ -2,19 +2,22 @@ var tag = 0
 var totalsl = 7
 var arr = ["primary","secondary","success","danger","warning","info","dark"]
 var arr2=["早餐","午餐","晚餐","交通","食物","文具","其他"]
+var arr3 = []
 var data;
 var zdata=[]
 var sort
 var sum = 0
+var wta = "https://script.google.com/macros/s/AKfycbwB2zTpbCxg07uu6Fty1eTK5KyjPkCSiLlCs6ExYNeF_h6ZaKk/exec"
+var wr = "https://script.google.com/macros/s/AKfycbyPfh3OJuiwNo4Ia1oMZQjUL3VKs_LSlifm7JHlLlFhTToSDW0/exec"
+var re = "https://script.google.com/macros/s/AKfycbxXI-wUSxK9n873vbEK1ToZHgHqsWOh2mr9JOK7f2RGrTLK-sKG/exec"
+var que = "https://script.google.com/macros/s/AKfycbyN6cUoIFIuO-DzLpVG1TCHA_XZWeLhOkP1gf4sjHBsZPMKRto/exec"
 var ta
-var wr = ""
-var re = ""
-var que = ""
 var sid=[]
 var inputType
 var mo
 var emo
 var datas
+var otherLo
 
 function linemethod(a){
   var k = $("#" + a).attr("me")
@@ -60,65 +63,71 @@ $( document ).ready(function() {
   var win =  new URL(window.location.href).searchParams;
   var cou = 0
   for (let pair of win.entries()) {
-    if( pair[0] == "wr"){
-      wr = pair[1]
-    }else if(pair[0] == "re"){
-      re = pair[1]
-    }else if(pair[0] == "que"){
-      que = pair[1]
-    }else{
-      var ver = "s0"
-      while(pair[0] == ver){
-
-        sid.push(pair[1])
-        cou++
-        ver = "s" + cou
-      }
-    }
+    if(pair[0] == "s0"){
+      sid.push(pair[1])
+      cou++
+    }    
   }
-  $("#resrc").val(re)
-  $("#wrsrc").val(wr)
-  $("#quesrc").val(que)
   $("#datasrc").val(sid[0])
-  if(wr == ""|| re == "" || que == "" || sid.length == 0){
+  if(sid.length == 0){
     sw("datamiss","loading")
   }else{
     var date = new Date().getMonth();
     var year = new Date().getFullYear();
-    mo = year + "-" + pad(String(date+1),2)
-    emo = year + "-" + pad(String(date+2),2)
+    mo = year + "-" + pad((date+1).toString(),2)
+    emo = year + "-" + pad((date+2).toString(),2)
     var decm = new Date()
-    $("#monthpick").val(decm.getFullYear() + "-" + pad((decm.getMonth() + 1),2))
+    $("#monthpick").val(decm.getFullYear() + "-" + pad((decm.getMonth() + 1).toString(),2))
+    getTag()
     query()
   }
 
 });
 
-function go(){
-  window.location.replace($('#urlgenerate').val())
+function getTag(){
+  var parameter={
+    uid:sid[0],
+    type:"read",
+  }
+  $.ajax({ 
+    type: "get", 
+    url: wta, 
+    data: parameter, 
+    dataType: "JSON", 
+    success: function (response) {
+      console.log(response);
+      var tagamount = response[0].length
+      arr2 = response[0]
+      arr = response[1]
+      arr3 = response[2]
+      totalsl = tagamount
+      for(var i=0;i<tagamount;i++){
+        $('#tag-home').append('<div class="btn btn-lg" role="button" onclick="del(\'' + response[2][i] + '\')" id="' + response[2][i] + '" style="background-color:' + response[1][i] + ';"><span class="badge badge-light">' + response[0][i] + '</span></div>')
+      }
+    } ,
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      //sw("oops","loading")
+      //$("#errordisplay").html("<h4>錯誤位置:寫入階段<br>錯誤內容:" + XMLHttpRequest.responseText + "</h4>")
+      //alert(XMLHttpRequest.responseText)
+    }
+  });
 }
+
 
 function init3(a){
   var str = ""
-  if(a == "早餐"){
-    str = '<span class="badge badge-primary">' + a + '</span>'
-  }else if(a == "午餐"){
-    str = '<span class="badge badge-secondary">' + a + '</span>'
-  }else if(a == "晚餐"){
-    str = '<span class="badge badge-success">' + a + '</span>'
-  }else if(a == "交通"){
-    str = '<span class="badge badge-danger">' + a + '</span>'
-  }else if(a == "食物"){
-    str = '<span class="badge badge-warning">' + a + '</span>'
-  }else if(a == "文具"){
-    str = '<span class="badge badge-info">' + a + '</span>'
-  }else if(a == "其他"){
-    str = '<span class="badge badge-dark">' + a + '</span>'
-  }else if(a == "收入"){
+  if(a == "收入"){
     str = '<svg width="1.8em" height="1.8em" viewBox="0 0 16 16" class="bi bi-box-arrow-in-down-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M14.5 13a1.5 1.5 0 0 1-1.5 1.5H3A1.5 1.5 0 0 1 1.5 13V8a.5.5 0 0 1 1 0v5a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5H9a.5.5 0 0 1 0-1h4A1.5 1.5 0 0 1 14.5 3v10z"/><path fill-rule="evenodd" d="M4.5 10a.5.5 0 0 0 .5.5h5a.5.5 0 0 0 .5-.5V5a.5.5 0 0 0-1 0v4.5H5a.5.5 0 0 0-.5.5z"/><path fill-rule="evenodd" d="M10.354 10.354a.5.5 0 0 0 0-.708l-8-8a.5.5 0 1 0-.708.708l8 8a.5.5 0 0 0 .708 0z"/></svg>'
   }else if(a == "支出"){
     str = '<svg width="1.8em" height="1.8em" viewBox="0 0 16 16" class="bi bi-box-arrow-up-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M14.5 13a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 13V9a.5.5 0 0 1 1 0v4a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5V5a.5.5 0 0 0-.5-.5H9a.5.5 0 0 1 0-1h4A1.5 1.5 0 0 1 14.5 5v8zm-7-11a.5.5 0 0 0-.5-.5H2a.5.5 0 0 0-.5.5v5a.5.5 0 0 0 1 0V2.5H7a.5.5 0 0 0 .5-.5z"/><path fill-rule="evenodd" d="M1.646 1.646a.5.5 0 0 0 0 .708l8 8a.5.5 0 0 0 .708-.708l-8-8a.5.5 0 0 0-.708 0z"/></svg>'
+  }else{
+    for(var i = 0;i<arr.length;i++){
+      if(a == arr2[i]){
+        str = '<span class="badge badge-light"><span class="badge" style="background-color:' + arr[i] + ';">&nbsp;</span>&nbsp' + a + '</span>'
+      }
+    }
   }
+
   return str
 }
 
@@ -144,30 +153,9 @@ function init2(a){
       var ty = init3(datas[j][4])
       if(datas[j][1] == "支出"){
         count++
-        //ty = '<svg width="1.8em" height="1.8em" viewBox="0 0 16 16" class="bi bi-box-arrow-up-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M14.5 13a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 13V9a.5.5 0 0 1 1 0v4a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5V5a.5.5 0 0 0-.5-.5H9a.5.5 0 0 1 0-1h4A1.5 1.5 0 0 1 14.5 5v8zm-7-11a.5.5 0 0 0-.5-.5H2a.5.5 0 0 0-.5.5v5a.5.5 0 0 0 1 0V2.5H7a.5.5 0 0 0 .5-.5z"/><path fill-rule="evenodd" d="M1.646 1.646a.5.5 0 0 0 0 .708l8 8a.5.5 0 0 0 .708-.708l-8-8a.5.5 0 0 0-.708 0z"/></svg>'
         $("#detailarea").append('<tr class="table-warning" id="list' + j + '"><td>' + ti3 + '</td><td>' + ty + '</td><td style="word-break: break-all;">' + datas[j][2] + '</td><td>' + datas[j][3] + '</td></tr>')
       }else{
         count++
-        //ty = '<svg width="1.8em" height="1.8em" viewBox="0 0 16 16" class="bi bi-box-arrow-in-down-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M14.5 13a1.5 1.5 0 0 1-1.5 1.5H3A1.5 1.5 0 0 1 1.5 13V8a.5.5 0 0 1 1 0v5a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5H9a.5.5 0 0 1 0-1h4A1.5 1.5 0 0 1 14.5 3v10z"/><path fill-rule="evenodd" d="M4.5 10a.5.5 0 0 0 .5.5h5a.5.5 0 0 0 .5-.5V5a.5.5 0 0 0-1 0v4.5H5a.5.5 0 0 0-.5.5z"/><path fill-rule="evenodd" d="M10.354 10.354a.5.5 0 0 0 0-.708l-8-8a.5.5 0 1 0-.708.708l8 8a.5.5 0 0 0 .708 0z"/></svg>'
-        $("#detailarea").append('<tr class="table-success" id="list' + j + '"><td>' + ti3 + '</td><td>' + ty + '</td><td style="word-break: break-all;">' + datas[j][2] + '</td><td>' + datas[j][3] + '</td></tr>')
-      }
-    }
-  }else if(a == "收入" || a == "早餐" || a == "午餐" || a == "晚餐" || a == "交通" || a == "食物" || a == "文具" || a == "其他"){
-    init3(a)
-    $("#dropdownMenu2").html('<svg width="1em" height="1em" viewbox="0 0 16 16" class="bi bi-funnel" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z"/></svg>&nbsp;' + a)
-    for(var i = 0;i<datas.length;i++){
-      var j = datas.length-1-i
-      var ti = datas[j][0].split("T");
-      var ti2 = ti[0].split("-")
-      var ti3 = ti2[1] + ti2[2]
-      var ty = init3(datas[j][4])
-      if(datas[j][4] == a && a != "收入" ){
-        count++
-        //ty = '<svg width="1.8em" height="1.8em" viewBox="0 0 16 16" class="bi bi-box-arrow-up-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M14.5 13a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 13V9a.5.5 0 0 1 1 0v4a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5V5a.5.5 0 0 0-.5-.5H9a.5.5 0 0 1 0-1h4A1.5 1.5 0 0 1 14.5 5v8zm-7-11a.5.5 0 0 0-.5-.5H2a.5.5 0 0 0-.5.5v5a.5.5 0 0 0 1 0V2.5H7a.5.5 0 0 0 .5-.5z"/><path fill-rule="evenodd" d="M1.646 1.646a.5.5 0 0 0 0 .708l8 8a.5.5 0 0 0 .708-.708l-8-8a.5.5 0 0 0-.708 0z"/></svg>'
-        $("#detailarea").append('<tr class="table-warning" id="list' + j + '"><td>' + ti3 + '</td><td>' + ty + '</td><td style="word-break: break-all;">' + datas[j][2] + '</td><td>' + datas[j][3] + '</td></tr>')
-      }else if(datas[j][4] == a && a == "收入"){
-        count++
-        //ty = '<svg width="1.8em" height="1.8em" viewBox="0 0 16 16" class="bi bi-box-arrow-in-down-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M14.5 13a1.5 1.5 0 0 1-1.5 1.5H3A1.5 1.5 0 0 1 1.5 13V8a.5.5 0 0 1 1 0v5a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5H9a.5.5 0 0 1 0-1h4A1.5 1.5 0 0 1 14.5 3v10z"/><path fill-rule="evenodd" d="M4.5 10a.5.5 0 0 0 .5.5h5a.5.5 0 0 0 .5-.5V5a.5.5 0 0 0-1 0v4.5H5a.5.5 0 0 0-.5.5z"/><path fill-rule="evenodd" d="M10.354 10.354a.5.5 0 0 0 0-.708l-8-8a.5.5 0 1 0-.708.708l8 8a.5.5 0 0 0 .708 0z"/></svg>'
         $("#detailarea").append('<tr class="table-success" id="list' + j + '"><td>' + ti3 + '</td><td>' + ty + '</td><td style="word-break: break-all;">' + datas[j][2] + '</td><td>' + datas[j][3] + '</td></tr>')
       }
     }
@@ -181,12 +169,43 @@ function init2(a){
       var ty = init3(datas[j][4])
       if(datas[j][1] == a){
         count++
-        //ty = '<svg width="1.8em" height="1.8em" viewBox="0 0 16 16" class="bi bi-box-arrow-up-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M14.5 13a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 13V9a.5.5 0 0 1 1 0v4a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5V5a.5.5 0 0 0-.5-.5H9a.5.5 0 0 1 0-1h4A1.5 1.5 0 0 1 14.5 5v8zm-7-11a.5.5 0 0 0-.5-.5H2a.5.5 0 0 0-.5.5v5a.5.5 0 0 0 1 0V2.5H7a.5.5 0 0 0 .5-.5z"/><path fill-rule="evenodd" d="M1.646 1.646a.5.5 0 0 0 0 .708l8 8a.5.5 0 0 0 .708-.708l-8-8a.5.5 0 0 0-.708 0z"/></svg>'
         $("#detailarea").append('<tr class="table-warning" id="list' + j + '"><td>' + ti3 + '</td><td>' + ty + '</td><td style="word-break: break-all;">' + datas[j][2] + '</td><td>' + datas[j][3] + '</td></tr>')
       }
     }
+  }else if(a == "收入"){
+    $("#dropdownMenu2").html('<svg width="1em" height="1em" viewbox="0 0 16 16" class="bi bi-funnel" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z"/></svg>&nbsp;' + a)
+    for(var i = 0;i<datas.length;i++){
+      var j = datas.length-1-i
+      var ti = datas[j][0].split("T");
+      var ti2 = ti[0].split("-")
+      var ti3 = ti2[1] + ti2[2]
+      var ty = init3(datas[j][4])
+      if(datas[j][1] == a){
+        count++
+        $("#detailarea").append('<tr class="table-success" id="list' + j + '"><td>' + ti3 + '</td><td>' + ty + '</td><td style="word-break: break-all;">' + datas[j][2] + '</td><td>' + datas[j][3] + '</td></tr>')
+      }
+    }
   }else{
-    $("#detailarea").append('<tr><td colspan="5" style="text-align: center;">列表無內容</td></tr>')
+    for(var i = 0;i<arr2.length;i++){
+      if(a == arr2[i]){
+        init3(a)
+        $("#dropdownMenu2").html('<svg width="1em" height="1em" viewbox="0 0 16 16" class="bi bi-funnel" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z"/></svg>&nbsp;' + a)
+        for(var i = 0;i<datas.length;i++){
+          var j = datas.length-1-i
+          var ti = datas[j][0].split("T");
+          var ti2 = ti[0].split("-")
+          var ti3 = ti2[1] + ti2[2]
+          var ty = init3(datas[j][4])
+          if(datas[j][4] == a && a != "收入" ){
+            count++
+            $("#detailarea").append('<tr class="table-warning" id="list' + j + '"><td>' + ti3 + '</td><td>' + ty + '</td><td style="word-break: break-all;">' + datas[j][2] + '</td><td>' + datas[j][3] + '</td></tr>')
+          }else if(datas[j][4] == a && a == "收入"){
+            count++
+           $("#detailarea").append('<tr class="table-success" id="list' + j + '"><td>' + ti3 + '</td><td>' + ty + '</td><td style="word-break: break-all;">' + datas[j][2] + '</td><td>' + datas[j][3] + '</td></tr>')
+          }
+        }
+      }
+    }
   }
   if(count == 0){
     $("#detailarea").append('<tr><td colspan="5" style="text-align: center;">列表無內容</td></tr>')
@@ -203,9 +222,6 @@ function init2(a){
       }
 
       function query(){
-        $("#ps").attr("style","width: 0%;")
-        $("#ps").html("0/2")
-        $("#psword").html("讀取0/2")
         var parameter={
           uid:sid[0],
           month:mo,
@@ -218,14 +234,11 @@ function init2(a){
           dataType: "JSON", 
           success: function (res) {
            console.log("載入1/2:搜尋完成")
-           $("#ps").attr("style","width: 50%;")
-           $("#ps").html("1/2")
-           $("#psword").html("讀取1/2")
            init()
          },
          error: function(XMLHttpRequest, textStatus, errorThrown) {
           sw("oops","loading")
-          $("#errordisplay").html("<h4>錯誤位置:讀取階段<br>錯誤內容:" + XMLHttpRequest.responseText + "</h4>")
+          $("#errordisplay").html("<h4>錯誤位置:讀取階段1<br>錯誤內容:" + XMLHttpRequest.responseText + "</h4>")
                //alert(XMLHttpRequest.responseText)
              }
            });
@@ -245,18 +258,13 @@ function init2(a){
           dataType: "JSON", 
           success: function (res) {
             console.log("載入2/2:讀取完成")
-           $("#ps").attr("style","width: 100%;")
-           $("#ps").html("2/2")
-           $("#psword").html("讀取2/2")
            setTimeout(function(){
             initthen(res)
             },300);
-           
-           
          },
          error: function(XMLHttpRequest, textStatus, errorThrown) {
           sw("oops","loading")
-          $("#errordisplay").html("<h4>錯誤位置:讀取階段<br>錯誤內容:" + XMLHttpRequest.responseText + "</h4>")
+          $("#errordisplay").html("<h4>錯誤位置:讀取階段2<br>錯誤內容:" + XMLHttpRequest.responseText + "</h4>")
                //alert(XMLHttpRequest.responseText)
              }
            });
@@ -270,7 +278,7 @@ function init2(a){
             var a = $("#monthpick").val()
             var b = a.split("-")
             var dab = new Date().getMonth() + 1;
-            dab = pad(dab,2)
+            dab = pad(dab.toString(),2)
             if(b[1] != dab){
               sw("timeout","loading")
             }else{
@@ -308,14 +316,22 @@ function init2(a){
             $("#remain").html('<h3><span class="badge badge-light">$' + total +'<span></h3>')
             
             sw("menu","loading")
+            $("#tagarea").html('')
+            $("#etagarea").html('')
+            $("#dropdownMenu").html('<h4 class="dropdown-header">排序方式</h4><button class="dropdown-item" type="button" onclick="init2(\'全部\')">全部</button><button class="dropdown-item" type="button" onclick="init2(\'支出\')">支出</button><button class="dropdown-item" type="button" onclick="init2(\'收入\')">收入</button>')
+            for(var i= 0;i<arr2.length;i++){
+              if(arr2[i] == "其他"){
+                otherLo = i
+              }
+              $("#tagarea").append('<button type="button" class="btn btn-lg" style="border-color:' + arr[i] + ';" onclick="selecttag(\'' + arr[i] + '\',this.id,\'' + arr2[i] + '\')" id="sle' + i + '"><span class="badge badge-light">' + arr2[i] + '</span></button>&nbsp;')
+              $("#etagarea").append('<button type="button" class="btn btn-lg" style="border-color:' + arr[i] + ';" onclick="selectetag(\'' + arr[i] + '\',this.id,\'' + arr2[i] + '\')" id="esle' + i + '"><span class="badge badge-light">' + arr2[i] + '</span></button>&nbsp;')
+              $("#dropdownMenu").append('<button class="dropdown-item" type="button" onclick="init2(\'' + arr2[i] + '\')"><span class="badge" style="background-color:' + arr[i] + ';">&nbsp;</span>&nbsp;' + arr2[i] + '</button>')
+            }
           }
 
         }
 
         function writed(a){
-           $("#ps").attr("style","width: 50%;")
-           $("#ps").html("0/1")
-           $("#psword").html("寫入中...")
           if($("#time").val() == "" || $("#item").val() == "" || $("#count").val() == ""){
             alert("nope")
           }else{
@@ -345,8 +361,6 @@ function init2(a){
               data: parameter, 
               dataType: "JSON", 
               success: function (response) {
-                $("#ps").attr("style","width: 100%;")
-                $("#ps").html("1/1")
                 console.log(response);
                 $("#listarea").html("")
                 setTimeout(function(){
@@ -395,12 +409,12 @@ function init2(a){
 
         function selecttag(a,id,b){
           console.log(id)
-          for(var i = 0;i<totalsl;i++){
+          for(var i = 0;i<arr.length;i++){
             var str = "sle" + i
             if(str == id){
-              $("#sle"+i).attr("class","btn btn-" + a)
+              $("#sle"+i).attr("style","background-color:" + arr[i] + ";")
             }else{
-              $("#sle"+i).attr("class","btn btn-outline-" + arr[i])
+              $("#sle"+i).attr("style","border-color:" + arr[i] + ";")
             }
           }
           ta = b
@@ -408,29 +422,16 @@ function init2(a){
 
         function selectetag(a,id,b){
           console.log(id)
-          for(var i = 0;i<totalsl;i++){
+          for(var i = 0;i<arr.length;i++){
             var str = "esle" + i
             if(str == id){
-              $("#esle"+i).attr("class","btn btn-" + a)
+              $("#esle"+i).attr("style","background-color:" + arr[i] + ";")
             }else{
-              $("#esle"+i).attr("class","btn btn-outline-" + arr[i])
+              $("#esle"+i).attr("style","border-color:" + arr[i] + ";")
             }
           }
           ta = b
         }
-
-        function crurl(){
-          if($("#wrsrc").val() == "" ||  $("#resrc") == "" || $("#datasrc") == ""){
-            alert("資料不完整")
-          }else{
-            let githubURL = new URL(window.location.href);
-            var searchParams = new URLSearchParams("?wr=" + $("#wrsrc").val() + "&re=" + $("#resrc").val()  + "&que=" + $("#quesrc").val() + "&s0=" + $("#datasrc").val());
-            githubURL.search = searchParams;
-    //alert(githubURL.href) // "https://github.com/search?q=react&type=Code"
-    $("#urlgenerate").val(githubURL.href)
-    $('#myModal').modal('toggle')
-  }
-}
 
 function logger(){
   var parameter={
@@ -462,14 +463,14 @@ function editact(){
     for(var i = 0;i<datas.length;i++){
       $("#list" + i).append('<td id="edit' + i + '"><button type="button" class="btn btn-sm btn-light" onclick="edit(\''+ i + '\',\'' + datas[i][5] + '\')"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-gear-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 0 0-5.86 2.929 2.929 0 0 0 0 5.858z"/></svg></button></td>')
     }
-    $("#editbtnAll").attr("class","btn btn-dark")
+    $("#editbtnAll").html('<svg width="1.5em" height="1.5em" viewbox="0 0 16 16" class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.293 1.293a1 1 0 0 1 1.414 0l2 2a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z"/><path fill-rule="evenodd" d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z"/></svg>&nbsp;取消編輯')
     editstatus = 1
   }else{
     $("#editrow").remove()
     for(var i = 0;i<datas.length;i++){
       $("#edit" + i).remove()
     }
-    $("#editbtnAll").attr("class","btn btn-outline-dark")
+    $("#editbtnAll").html('<svg width="1.5em" height="1.5em" viewbox="0 0 16 16" class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.293 1.293a1 1 0 0 1 1.414 0l2 2a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z"/><path fill-rule="evenodd" d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z"/></svg>&nbsp;編輯')
     editstatus = 0
   }
 }
@@ -491,7 +492,7 @@ function edit(a,b){
     $("#ecount").val(0-datas[a][3])
     var tr1 = arr2.indexOf(datas[a][4])
     if(tr1 == -1){
-      tr1 = 6
+      tr1 = otherLo
       var tr2 = arr[tr1]
       var tr3= "esle" + tr1
       selectetag(tr2,tr3,"其他")
@@ -512,9 +513,6 @@ function edit(a,b){
 var editno
 
 function edited(a,b){
-  $("#ps").attr("style","width: 50%;")
-  $("#ps").html("0/1")
-  $("#psword").html("更新中...")
   if($("#etime").val() == "" || $("#eitem").val() == "" || $("#ecount").val() == ""){
     alert("nope")
   }else{
@@ -569,7 +567,7 @@ $( "#etype" ).change(function() {
   if(a == "支出"){
     var tr1 = arr2.indexOf(datas[editno][4])
     if(tr1 == -1){
-      tr1 = 6
+      tr1 = otherLo
       var tr2 = arr[tr1]
       var tr3= "esle" + tr1
       selectetag(tr2,tr3,"其他")
@@ -586,6 +584,9 @@ $( "#etype" ).change(function() {
 });
 
 function chmonth(){
+  datas = []
+  data = []
+  zdata = []
   sw("loading","menu")
   sw("loading","table")
   sw("loading","menu")
@@ -597,13 +598,17 @@ function chmonth(){
   var b = a.split("-")
   var da = new Date().getFullYear();
   var dab = new Date().getMonth() + 1;
-  mo = da + "-" + b[1]
-  emo = da + "-" + pad(parseInt(b[1])+1,2)
-  dab = pad(dab,2)
+  mo = da + "-" + pad((parseInt(b[1])).toString(),2)
+  emo = da + "-" + pad((parseInt(b[1])+1).toString(),2)
+  dab = pad(dab.toString(),2)
   if(b[1] != dab){
     $("#inbtn").attr("style","display:none")
     $("#outbtn").attr("style","display:none")
     $("#editbtnAll").attr("style","display:none")
+  }else{
+    $("#inbtn").attr("style","")
+    $("#outbtn").attr("style","")
+    $("#editbtnAll").attr("style","")
   }
   $("#monthpick").attr("style","display:none")
   $("#listarea").html("")
@@ -642,7 +647,7 @@ function createChart(){
         height: wi
     },
     title: {
-        text: mo
+        text: mo + " 支出"
     },
     "tooltip": {
       "enabled": false
@@ -672,8 +677,84 @@ function createChart(){
   
   $("#areaa").append('<div class="jumbotron"></div>')
   for(var i = 0;i<arr2.length;i++){
-    $(".jumbotron").append('<span class="badge badge-' + arr[i] + '">&nbsp;</span>&nbsp;' + arr2[i] + '&nbsp;:&nbsp;' + pie[i].y + "元<br>")
+    $(".jumbotron").append('<span class="badge" style="background-color:' + arr[i] + ';">&nbsp;</span>&nbsp;' + arr2[i] + '&nbsp;:&nbsp;' + pie[i].y + "元<br>")
   }
   
   
 }
+
+      function tagpage(id){
+        if(id == "tagToggler1"){
+          $("#tagToggler1").attr("style","display:none;")
+          $("#tagToggler2").attr("style","")
+          $('#tag-edit').tab("show")
+          $('#tag-home').attr("class","tab-pane fade")
+        }else{
+          $("#tagToggler1").attr("style","")
+          $("#tagToggler2").attr("style","display:none;")
+          $('#tag-home').tab("show")
+          $('#tag-edit').attr("class","tab-pane fade")
+        }
+      }
+
+      function createtag(tagName,tagColor){
+        if(tagName == ""){
+          alert("標籤名稱不可空白")
+        }else{
+          arr2.push(tagName)
+          arr.push(tagColor)
+          var pw = generatePW()
+          arr3.push(pw)
+          $('#tag-home').append('<div class="btn btn-lg" role="button" onclick="del(\'' + pw + '\')" id="' + pw + '" style="background-color:' + tagColor + ';"><span class="badge badge-light">' + tagName + '</span></div>')
+          tagpage("aaa")
+        }
+      }
+
+      function del(a){
+        /*
+        var t = confirm("確定刪除?")
+        if(t == true){
+          $("#" + a).remove()
+          var pos = arr.indexOf(a)
+          arr3.splice(pos, 1);
+          arr2.splice(pos, 1);
+          arr.splice(pos, 1);
+        }
+        */
+        alert("功能維護中")
+      }
+
+      function updateTag(){
+        sw("loading","datamiss")
+        if(arr.length != 0){
+          var data1txt=arr2[0],data2txt=arr[0],data3txt=arr3[0];
+          for(var i=1;i<arr2.length;i++){
+            data1txt += "," + arr2[i]
+            data2txt += "," + arr[i]
+            data3txt += "," + arr3[i]
+          }
+          var parameter={
+            uid:sid[0],
+            type:"write",
+            data1:data1txt,
+            data2:data2txt,
+            data3:data3txt,
+            length:arr2.length
+          }
+          $.ajax({ 
+            type: "get", 
+            url: wta, 
+            data: parameter, 
+            dataType: "JSON", 
+            success: function (response) {
+              console.log(response); 
+              sw("datamiss","loading") 
+            } ,
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+              //sw("oops","loading")
+              //$("#errordisplay").html("<h4>錯誤位置:寫入階段<br>錯誤內容:" + XMLHttpRequest.responseText + "</h4>")
+              //alert(XMLHttpRequest.responseText)
+            }
+          });
+        }
+      }
